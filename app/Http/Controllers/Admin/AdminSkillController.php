@@ -38,7 +38,7 @@ class AdminSkillController extends Controller
 
         Skill::create($request->all());
 
-        return redirect()->route('skill.index');
+        return redirect()->route('skill.index')->with('added', true);
     }
 
     /**
@@ -70,7 +70,7 @@ class AdminSkillController extends Controller
 
         $skill->update($request->all());
 
-        return redirect()->route('skill.index');
+        return redirect()->route('skill.index')->with('edited', true);
     }
 
     /**
@@ -79,6 +79,6 @@ class AdminSkillController extends Controller
     public function destroy(Skill $skill)
     {
         $skill->delete();
-        return redirect()->route('skill.index');
+        return redirect()->route('skill.index')->with('deleted', true);
     }
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Data Skill</title>
     <style>
@@ -94,7 +95,7 @@
                 <form action="{{ route('skill.destroy', $row) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    <button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm">Delete</button>
                 </form>
                 {{-- <a href="{{ route('skill.destroy', $row) }}" class="btn btn-danger btn-sm">Delete</a> --}}
             </td>
@@ -105,9 +106,52 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    @if (session('added'))
+        Swal.fire({
+            title: 'Berhasil',
+            text: 'Berhasil menambahkan data baru!',
+            icon: 'success'
+        })
+    @endif
+
+    @if (session('edited'))
+        Swal.fire({
+            title: 'Berhasil',
+            text: 'Berhasil mengedit data!',
+            icon: 'success'
+        })
+    @endif
+
+    function hapus(button) {
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: 'Data akan benar benar terhapus!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if(result.isConfirmed) {
+                button.parentElement.submit();
+            };
+        });
+    }
+
+    @if (session('deleted'))
+        Swal.fire({
+            title: 'Berhasil',
+            text: 'Berhasil menghapus data!',
+            icon: 'success'
+        })
+    @endif
+
+</script>
 
 <script>
     let table = new DataTable('#myTable');
