@@ -1,18 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\Admin\AdminSkillController;
-use App\Http\Controllers\SkillController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\TblDinamisController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\KontenController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TblDinamisController;
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\Admin\AdminSkillController;
+use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\Admin\AdminProjectController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
+use App\Http\Controllers\Admin\AdminCertificateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +28,12 @@ Route::get('/project', [ProjectController::class, 'project']);
 Route::get('/certificate', [CertificateController::class, 'certificate']);
 Route::get('/contact', [ContactController::class, 'contact']);
 Route::get('/admin/dashboard', [AdminController::class, 'admin'])->middleware('auth', 'admin');
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('/skill', AdminSkillController::class);
+    Route::resource('/certificates', AdminCertificateController::class);
+    Route::resource('/project', AdminProjectController::class);
+    Route::resource('/contact', AdminContactController::class);
+});
 
 // Route::get('/dinamis', [TblDinamisController::class, 'index'])->name('dinamis.index');
 // Route::get('/dinamis/create', [TblDinamisController::class, 'create'])->name('dinamis.create');
@@ -44,8 +53,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('konten', KontenController::class);
-
-Route::resource('/admin/dashboard/skill', AdminSkillController::class);
-
 
 require __DIR__.'/auth.php';

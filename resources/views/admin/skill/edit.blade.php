@@ -1,4 +1,4 @@
-<form action="{{ route('skill.update', $skill) }}" method="POST">
+<form action="{{ route('admin.skill.update', $skill) }}" method="POST">
     @csrf
     @method('PUT')
   <div class="mb-3">

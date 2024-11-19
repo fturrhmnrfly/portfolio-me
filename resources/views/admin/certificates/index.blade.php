@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="sweetalert2.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Data Skill</title>
+    <title>Data Certificate</title>
     <style>
         body {
             background-color: #f8f9fa;
@@ -48,7 +48,6 @@
 
         .table td:hover {
             background-color: #ffc107;
-            transform: rotate(1deg);
         }
 
         .btn {
@@ -64,45 +63,48 @@
         .btn-danger {
             transition: transform 0.2s;
         }
-
-        .btn-danger:hover {
-            transform: rotate(-5deg);
-        }
     </style>
 </head>
 <body>
 
-<h3>Data Skill</h3>
+<h3>Data Certificate</h3>
 <div class="container mt-5">
     <a href="/konten" class="btn btn-primary">Back</a>
-    <a href="{{ route('admin.skill.create') }}" class="btn btn-primary">Create</a>
+    <a href="{{ route('admin.certificates.create') }}" class="btn btn-primary">Create</a>
     <table class="table mt-3" id="myTable">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($skill as $row)
-        <tr>
-            <td>{{ $row->title }}</td>
-            <td>{{ $row->description }}</td>
-            <td>
-                <a href="{{ route('admin.skill.show', $row) }}" class="btn btn-info btn-sm">Detail</a>
-                <a href="{{ route('admin.skill.edit', $row) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.skill.destroy', $row) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-                {{-- <a href="{{ route('skill.destroy', $row) }}" class="btn btn-danger btn-sm">Delete</a> --}}
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Issued By</th>
+                <th scope="col">Issued At</th>
+                <th scope="col">Description</th>
+                <th scope="col">File</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($certificates as $certificate)
+            <tr>
+                <td>{{ $certificate->name }}</td>
+                <td>{{ $certificate->issued_by }}</td>
+                <td>{{ $certificate->issued_at->format('d/m/Y') }}</td>
+                <td>{{ $certificate->description }}</td>
+                <!-- Dalam index.blade.php -->
+                <td>
+                    <a href="{{ asset('storage/public/certificates/' . $certificate->file) }}" target="_blank" class="btn btn-info btn-sm">View PDF</a>
+                </td>
+                <td>
+                    <a href="{{ route('admin.certificates.edit', $certificate) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('admin.certificates.destroy', $certificate) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -112,18 +114,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    @if (session('added'))
+    @if (session('success'))
         Swal.fire({
             title: 'Berhasil',
-            text: 'Berhasil menambahkan data baru!',
-            icon: 'success'
-        })
-    @endif
-
-    @if (session('edited'))
-        Swal.fire({
-            title: 'Berhasil',
-            text: 'Berhasil mengedit data!',
+            text: '{{ session("success") }}',
             icon: 'success'
         })
     @endif
@@ -142,15 +136,6 @@
             };
         });
     }
-
-    @if (session('deleted'))
-        Swal.fire({
-            title: 'Berhasil',
-            text: 'Berhasil menghapus data!',
-            icon: 'success'
-        })
-    @endif
-
 </script>
 
 <script>

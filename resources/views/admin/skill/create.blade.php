@@ -1,4 +1,4 @@
-<form action="{{ route('skill.store') }}" method="POST">
+<form action="{{ route('admin.skill.store') }}" method="POST">
     @csrf
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>

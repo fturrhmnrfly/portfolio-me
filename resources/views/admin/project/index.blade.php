@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="sweetalert2.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Data Skill</title>
+    <title>Data Project</title>
     <style>
         body {
             background-color: #f8f9fa;
@@ -48,7 +48,7 @@
 
         .table td:hover {
             background-color: #ffc107;
-            transform: rotate(1deg);
+            /* transform: rotate(1deg); */
         }
 
         .btn {
@@ -65,34 +65,37 @@
             transition: transform 0.2s;
         }
 
-        .btn-danger:hover {
+        /* .btn-danger:hover {
             transform: rotate(-5deg);
-        }
+        } */
     </style>
 </head>
 <body>
 
-<h3>Data Skill</h3>
+<h3>Data Project</h3>
 <div class="container mt-5">
     <a href="/konten" class="btn btn-primary">Back</a>
-    <a href="{{ route('admin.skill.create') }}" class="btn btn-primary">Create</a>
+    <a href="{{ route('admin.project.create') }}" class="btn btn-primary">Create</a>
     <table class="table mt-3" id="myTable">
     <thead>
         <tr>
-            <th scope="col">Title</th>
+            <th scope="col">Name</th>
             <th scope="col">Description</th>
+            <th scope="col">Link</th>
+            <th scope="col">Date</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($skill as $row)
+        @foreach ($project as $row)
         <tr>
-            <td>{{ $row->title }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->description }}</td>
+            <td>{{ $row->link }}</td>
+            <td>{{ $row->date }}</td>
             <td>
-                <a href="{{ route('admin.skill.show', $row) }}" class="btn btn-info btn-sm">Detail</a>
-                <a href="{{ route('admin.skill.edit', $row) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.skill.destroy', $row) }}" method="POST">
+                <a href="{{ route('admin.project.edit', $row) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('admin.project.destroy', $row) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm">Delete</button>
@@ -125,7 +128,7 @@
             title: 'Berhasil',
             text: 'Berhasil mengedit data!',
             icon: 'success'
-        })
+        })  
     @endif
 
     function hapus(button) {

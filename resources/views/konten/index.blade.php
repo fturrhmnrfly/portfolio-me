@@ -290,7 +290,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
+          <i class="bi bi-house"></i>
           <span> Home </span>
         </a>
 
@@ -300,22 +300,28 @@
           <span> About </span>
         </a>
 
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="/admin/skill">
+            <i class="bi bi-card-list"></i>
+            <span> Skill </span>
+          </a>
+
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
+        <a class="nav-link collapsed" href="admin/project">
           <i class="bi bi-envelope"></i>
           <span> Project </span>
         </a>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/admin/dashboard/skill">
-          <i class="bi bi-card-list"></i>
-          <span> Skill </span>
+        <a class="nav-link collapsed" href="admin/certificates">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span> Certificate </span>
         </a>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span> Certificate </span>
+        <a class="nav-link collapsed" href="admin/contact">
+          <i class="bi bi-person"></i>
+          <span> Contact </span>
         </a>
 
     </ul>

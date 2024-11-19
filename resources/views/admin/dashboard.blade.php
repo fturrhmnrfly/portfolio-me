@@ -313,7 +313,7 @@
         </a>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" href="admin/certificates">
           <i class="bi bi-box-arrow-in-right"></i>
           <span> Certificate </span>
         </a>
