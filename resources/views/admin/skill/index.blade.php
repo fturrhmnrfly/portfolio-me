@@ -1,160 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
-    <link rel="stylesheet" href="sweetalert2.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <title>Data Skill</title>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f4f6f9;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #343a40;
-            font-family: 'Arial', sans-serif;
-            text-shadow: 1px 1px 2px #ccc;
+        .container {
+            max-width: 1000px;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
 
         .table {
-            border: 2px solid #007bff;
-            transition: transform 0.3s;
+            --bs-table-bg: #ffffff;
+            --bs-table-color: #212529;
+            --bs-table-hover-bg: #f5f8fa;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        .table:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
-        }
-
-        .table th {
-            background-color: #007bff;
+        .table thead {
+            background-color: #0d6efd;
             color: white;
-            transition: background-color 0.3s;
         }
 
-        .table th:hover {
-            background-color: #0056b3;
-        }
-
-        .table td {
-            background-color: #e9ecef;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .table td:hover {
-            background-color: #ffc107;
-            transform: rotate(1deg);
+        .table thead th {
+            vertical-align: middle;
+            border-bottom: 2px solid #0a58ca;
         }
 
         .btn {
-            transition: transform 0.2s, background-color 0.3s;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .btn:hover {
-            transform: scale(1.1);
-            background-color: #17a2b8;
-            color: white;
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
         }
 
-        .btn-danger {
-            transition: transform 0.2s;
-        }
+        @media (max-width: 768px) {
 
-        .btn-danger:hover {
-            transform: rotate(-5deg);
+            .btn-group,
+            .btn-group-vertical {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                margin-bottom: 0.25rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<h3>Data Skill</h3>
-<div class="container mt-5">
-    <a href="/konten" class="btn btn-primary">Back</a>
-    <a href="{{ route('admin.skill.create') }}" class="btn btn-primary">Create</a>
-    <table class="table mt-3" id="myTable">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($skill as $row)
-        <tr>
-            <td>{{ $row->title }}</td>
-            <td>{{ $row->description }}</td>
-            <td>
-                <a href="{{ route('admin.skill.show', $row) }}" class="btn btn-info btn-sm">Detail</a>
-                <a href="{{ route('admin.skill.edit', $row) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('admin.skill.destroy', $row) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-                {{-- <a href="{{ route('skill.destroy', $row) }}" class="btn btn-danger btn-sm">Delete</a> --}}
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-</div>
+    <div class="container">
+        <h3 class="text-center mb-4">Data Skill</h3>
+        <div class="mb-3">
+            <a href="/konten" class="btn btn-primary">Back</a>
+            <a href="{{ route('admin.skill.create') }}" class="btn btn-primary">Create</a>
+        </div>
+        <table class="table table-striped table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($skill as $row)
+                    <tr>
+                        <td>{{ $row->title }}</td>
+                        <td>{{ $row->description }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ route('admin.skill.show', $row) }}" class="btn btn-info btn-sm">Detail</a>
+                                <a href="{{ route('admin.skill.edit', $row) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('admin.skill.destroy', $row) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" onclick="hapus(this)"
+                                        class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    @if (session('added'))
-        Swal.fire({
-            title: 'Berhasil',
-            text: 'Berhasil menambahkan data baru!',
-            icon: 'success'
-        })
-    @endif
+    <script>
+        @if (session('added'))
+            Swal.fire({
+                title: 'Success',
+                text: 'Successfully added new data!',
+                icon: 'success'
+            });
+        @endif
 
-    @if (session('edited'))
-        Swal.fire({
-            title: 'Berhasil',
-            text: 'Berhasil mengedit data!',
-            icon: 'success'
-        })
-    @endif
+        @if (session('edited'))
+            Swal.fire({
+                title: 'Success',
+                text: 'Successfully edited data!',
+                icon: 'success'
+            });
+        @endif
 
-    function hapus(button) {
-        Swal.fire({
-            title: 'Yakin ingin menghapus?',
-            text: 'Data akan benar benar terhapus!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if(result.isConfirmed) {
-                button.parentElement.submit();
-            };
+        function hapus(button) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This data will be permanently deleted!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Delete!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    button.closest('form').submit();
+                }
+            });
+        }
+
+        @if (session('deleted'))
+            Swal.fire({
+                title: 'Success',
+                text: 'Successfully deleted data!',
+                icon: 'success'
+            });
+        @endif
+
+        let table = new DataTable('#myTable', {
+            responsive: true
         });
-    }
-
-    @if (session('deleted'))
-        Swal.fire({
-            title: 'Berhasil',
-            text: 'Berhasil menghapus data!',
-            icon: 'success'
-        })
-    @endif
-
-</script>
-
-<script>
-    let table = new DataTable('#myTable');
-</script>
+    </script>
 </body>
+
 </html>
